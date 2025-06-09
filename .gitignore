@@ -1,0 +1,5 @@
+# l'environnement virtuel
+env/
+
+# les fichiers de compilations
+*.pyc

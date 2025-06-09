@@ -13,9 +13,7 @@ Il s'agit d'une application de gestion de restaurant permettant de :
 
 - gérer l’accès aux données selon le rôle (admin, serveur, cuisinier, etc.).
 
-L'application repose sur une architecture modulaire inspirée des principes de la programmation orientée objet ainsi que l'architecture MVC (modèle-vue-contrôleur) afin d’assurer une bonne séparation des différentes parties de code.
-
-Foobar is a Python library for dealing with word pluralization.
+L'application repose sur une architecture modulaire inspirée des principes de la programmation orientée objet ainsi que l'architecture MVC (modèle-vue-contrôleur) afin d’assurer une bonne séparation des différentes parties du code.
 
 ## Notre Groupe
 

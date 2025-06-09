@@ -56,13 +56,13 @@ PROJET-POO/
 │
 ├── controllers/          # Logique de contrôle (Finance, Tables)
 │   ├── financeController.py
-│   └── TableController.py
+│   └── tableController.py
 │
 ├── database/             # Données persistées en JSON
 │   ├── employes.json
 │   ├── menu.json
 │   ├── orders.json
-│   └── Reservation.json
+│   └── reservation.json
 │
 ├── models/               # Classes métiers (FinanceManager, Menu, Reservations...)
 │   ├── finance_manager.py

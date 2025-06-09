@@ -1,0 +1,17 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "nom": "admin",
+        "mot_de_passe": "1234",
+        "isAdmin": true
+      },
+      {
+        "id": 2,
+        "nom": "Hussein",
+        "mot_de_passe": "1234",
+        "isAdmin": false
+      }
+    ]
+  }
+  

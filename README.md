@@ -32,6 +32,8 @@ L'application repose sur une architecture modulaire inspirée des principes de l
 - Rotation des services : À la fin du service, la table redevient disponible (verte) pour un nouveau client.
 
 - Vue finance : Regroupement automatique des tickets par jour et par mois. Accessible uniquement pour "l'admin".
+  
+- Gestion du personnel : Seul l'admin a la possibilité d'ajouter, de supprimer et de modifier le rôle du personnel (CRUD).
 
 - Accès administrateur : L’admin a accès à la vue "finances". Les autres utilisateurs n’ont pas cet accès.
 
@@ -82,7 +84,9 @@ PROJET-POO/
 │
 ├── main.py               # Point d’entrée de l’application
 ├── README.md             # Fichier de documentation (ce fichier)
+├── requirements.txt        
 └── .gitignore            # Fichiers/dossiers à ignorer (ex: .idea/)
+
 ```
 
 ## Installation et Lancement

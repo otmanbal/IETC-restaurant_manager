@@ -33,3 +33,22 @@ class mainWindow(QMainWindow):
         self.stack.addWidget(self.page_menu)     
         self.stack.addWidget(self.page_finance)  
         self.stack.addWidget(self.page_profil)   
+
+        # Actions navigation
+        action_tables = QAction("Tables", self)
+        action_tables.triggered.connect(lambda: self.stack.setCurrentIndex(0))
+        toolbar.addAction(action_tables)
+
+        action_menu = QAction("Menu", self)
+        action_menu.triggered.connect(lambda: self.stack.setCurrentIndex(1))
+        toolbar.addAction(action_menu)
+
+        action_finance = QAction("Finance", self)
+        action_finance.triggered.connect(lambda: self.stack.setCurrentIndex(2))
+        toolbar.addAction(action_finance)
+
+        # Spacer pour pousser l'action Profil à droite
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        toolbar.addWidget(spacer)
+

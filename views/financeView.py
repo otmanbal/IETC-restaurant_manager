@@ -17,3 +17,12 @@ class FinanceView(QWidget):
         self.payment_table.setHorizontalHeaderLabels(["ID", "Table No.", "Date", "Payment Type", "Price"])
         self.payment_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.payment_table.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
+
+
+        # Scroll pour le tableau du haut
+        payment_scroll = QScrollArea()
+        payment_scroll.setWidgetResizable(True)
+        payment_scroll.setWidget(self.payment_table)
+        row_height = self.payment_table.verticalHeader().defaultSectionSize()
+        header_height = self.payment_table.horizontalHeader().height()
+        payment_scroll.setFixedHeight(row_height * 10 + header_height + 10)

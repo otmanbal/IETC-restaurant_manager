@@ -26,3 +26,11 @@ class FinanceView(QWidget):
         row_height = self.payment_table.verticalHeader().defaultSectionSize()
         header_height = self.payment_table.horizontalHeader().height()
         payment_scroll.setFixedHeight(row_height * 10 + header_height + 10)
+
+
+        # Tableau du bas : totaux journaliers
+        self.daily_total_table = QTableWidget()
+        self.daily_total_table.setColumnCount(3)
+        self.daily_total_table.setHorizontalHeaderLabels(["ID", "Date", "Daily Total"])
+        self.daily_total_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.daily_total_table.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)

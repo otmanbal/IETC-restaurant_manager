@@ -65,3 +65,17 @@ class LoginPage(QWidget):
                 "isAdmin": user.get("isAdmin", False)
             }
         return user_index
+
+    def check_credentials(self):
+        username = self.input_username.text().strip()
+        password = self.input_password.text().strip()
+
+        if not username or not password:
+            QMessageBox.warning(self, "Champs vides", "Veuillez remplir tous les champs.")
+            return
+
+        user_info = self.users_index.get(username)
+        if user_info and user_info["mot_de_passe"] == password:
+            self.login_successful.emit(username, user_info["isAdmin"])
+        else:
+            QMessageBox.warning(self, "Erreur", "Nom d'utilisateur ou mot de passe incorrect.")

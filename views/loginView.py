@@ -41,3 +41,27 @@ class LoginPage(QWidget):
         layout.addWidget(self.btn_login)
 
         self.setLayout(layout)
+        
+    def load_users(self):
+        file_path = Path(__file__).parent.parent / "database" / "employes.json"
+        if not os.path.exists(file_path):
+            QMessageBox.critical(self, "Erreur", "Fichier des utilisateurs introuvable.")
+            return []
+
+        try:
+            with open(file_path, 'r', encoding="utf-8") as f:
+                data = json.load(f)
+                return data.get("users", [])
+        except json.JSONDecodeError:
+            QMessageBox.critical(self, "Erreur", "Erreur de lecture du fichier JSON.")
+            return []
+
+    def create_user_index(self, users_list):
+        # Création d’un index {nom: {mot_de_passe, isAdmin}}
+        user_index = {}
+        for user in users_list:
+            user_index[user["nom"]] = {
+                "mot_de_passe": user["mot_de_passe"],
+                "isAdmin": user.get("isAdmin", False)
+            }
+        return user_index

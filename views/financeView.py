@@ -111,3 +111,12 @@ class MainWindow(QWidget):
         self.setLayout(layout)
         self.rafraichirTables()
 
+
+    def generateReport(self):
+        """
+            Génère un rapport PDF, affiche un message de confirmation,
+            puis rafraîchit les tables affichées dans l’interface.
+        """
+        generateReport()
+        QMessageBox.information(self, "Succès", "Le rapport PDF a été généré.")
+        self.rafraichirTables() 

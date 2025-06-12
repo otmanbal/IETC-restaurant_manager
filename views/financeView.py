@@ -132,3 +132,33 @@ class MainWindow(QWidget):
         generateReport()
         QMessageBox.information(self, "Succès", "Le rapport PDF a été généré.")
         self.rafraichirTables() 
+
+
+    def rafraichirTables(self):
+        """
+            Recharge les données financières depuis la source de données,
+            met à jour l’affichage des paiements individuels dans la vue finance,
+            puis calcule et affiche le total des paiements par jour.
+        """
+        donnees = chargerDonnees()
+        self.finance_view.populate_payments([
+            {
+                "id": d["id"],
+                "table_no": "-",  
+                "date": d["date"],
+                "payment_type": d["type_paiement"],
+                "price": d["total_facture"]
+            }
+            for d in donnees
+        ])
+
+        total_par_jour = defaultdict(float)
+        for d in donnees:
+            total_par_jour[d["date"]] += d["total_facture"]
+
+        daily_total_list = [
+            {"id": i+1, "date": date, "total": total}
+            for i, (date, total) in enumerate(total_par_jour.items())
+        ]
+
+        self.finance_view.populate_daily_totals(daily_total_list)

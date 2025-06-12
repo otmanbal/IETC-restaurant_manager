@@ -14,7 +14,6 @@ def load_finances():
     except FileNotFoundError:
         return []
 
-
 def save_finance_entry(entry):
     """
     Permet de sauvegarder une nouvelle entrée financière en l’ajoutant
@@ -24,3 +23,15 @@ def save_finance_entry(entry):
     data.append(entry)
     with open(FINANCE_FILE, "w") as f:
         json.dump(data, f, indent=4)
+
+def add_financial_record(record_type, description, amount):
+    """
+    Permet d’ajouter un enregistrement financier avec la date du jour, puis de le sauvegarder dans le fichier JSON des finances.
+    """
+    entry = {
+        "date": datetime.now().strftime("%Y-%m-%d"),
+        "type": record_type,
+        "description": description,
+        "amount": amount
+    }
+    save_finance_entry(entry)

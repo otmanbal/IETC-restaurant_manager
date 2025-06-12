@@ -13,3 +13,14 @@ def load_finances():
             return json.load(f)
     except FileNotFoundError:
         return []
+
+
+def save_finance_entry(entry):
+    """
+    Permet de sauvegarder une nouvelle entrée financière en l’ajoutant
+    aux données existantes dans le fichier JSON des finances.
+    """
+    data = load_finances()
+    data.append(entry)
+    with open(FINANCE_FILE, "w") as f:
+        json.dump(data, f, indent=4)

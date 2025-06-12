@@ -19,3 +19,45 @@ class InterfaceFinance(QWidget):
         self.setWindowTitle("Gestion des finances")
         self.setGeometry(200, 200, 800, 4600)
         self.init_ui()
+
+
+    def init_ui(self):
+        """
+            Initialise l’interface graphique pour la saisie et la gestion des données financières :
+            champs de saisie, boutons d’action, et tableau d’affichage des données.
+        """
+        layout = QVBoxLayout()
+
+        self.id_input = QLineEdit()
+        self.id_input.setPlaceholderText("ID")
+
+        self.total_input = QLineEdit()
+        self.total_input.setPlaceholderText("Total facture")
+
+        self.type_input = QComboBox()
+        self.type_input.addItems(["virement", "cache"])
+
+        self.btn_ajouter = QPushButton("Ajouter")
+        self.btn_ajouter.clicked.connect(self.ajouterDonnee)
+
+        self.btn_rafraichir = QPushButton("Afficher les données")
+        self.btn_rafraichir.clicked.connect(self.afficherDonnees)
+
+        self.btn_rapport = QPushButton("Générer le rapport")
+        self.btn_rapport.clicked.connect(self.generateReport)
+
+        self.table = QTableWidget()
+        self.table.setColumnCount(4)
+        self.table.setHorizontalHeaderLabels(["ID", "Date", "Paiement", "Total"])
+
+        layout.addWidget(QLabel("Ajouter une entrée financière :"))
+        layout.addWidget(self.id_input)
+        layout.addWidget(self.total_input)
+        layout.addWidget(self.type_input)
+        layout.addWidget(self.btn_ajouter)
+        layout.addWidget(self.btn_rafraichir)
+        layout.addWidget(self.btn_rapport)
+        layout.addWidget(self.table)
+
+        self.setLayout(layout)
+        

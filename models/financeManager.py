@@ -26,7 +26,8 @@ def save_finance_entry(entry):
 
 def add_financial_record(record_type, description, amount):
     """
-    Permet d’ajouter un enregistrement financier avec la date du jour, puis de le sauvegarder dans le fichier JSON des finances.
+    Permet d’ajouter un enregistrement financier avec la date du jour, 
+    puis de le sauvegarder dans le fichier JSON des finances.
     """
     entry = {
         "date": datetime.now().strftime("%Y-%m-%d"),
@@ -35,3 +36,13 @@ def add_financial_record(record_type, description, amount):
         "amount": amount
     }
     save_finance_entry(entry)
+
+def get_financial_summary():
+    """
+    Permet de calculer et retourner un résumé financier incluant les revenus,
+    les dépenses et le solde actuel.
+    """
+    data = load_finances()
+    income = sum(e["amount"] for e in data if e["type"] == "income")
+    expense = sum(e["amount"] for e in data if e["type"] == "expense")
+    return income, expense, income - expense

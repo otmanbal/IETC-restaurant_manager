@@ -6,7 +6,13 @@ from PySide6.QtWidgets import (
 from PySide6.QtGui import QDesktopServices
 from PySide6.QtCore import QUrl
 
+
 class OrdersByDateView(QWidget):
+    """
+    Permet d’afficher, sous forme de tableau, les commandes effectuées à une date donnée,
+    avec un accès aux factures PDF si disponibles.
+    """
+
     def __init__(self, date):
         super().__init__()
         self.setWindowTitle(f"Commandes du {date}")
@@ -15,44 +21,54 @@ class OrdersByDateView(QWidget):
         layout = QVBoxLayout(self)
         layout.addWidget(QLabel(f"Commandes du {date}"))
 
-        # Charger les réservations depuis le fichier JSON
-        BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        JSON_PATH = os.path.join(BASE_DIR, "database", "reservations.json")
-
-        with open(JSON_PATH, "r") as f:
-             all_orders = json.load(f)
-
-
-        # Filtrer les réservations du jour
-        orders_of_the_day = []
-        for order in all_orders:
-            if order["date"] == date:
-                orders_of_the_day.append(order)
-
-        self.orders = orders_of_the_day
-
-        # Créer le tableau
-        self.order_table = QTableWidget()
-        self.order_table.setRowCount(len(self.orders))
-        self.order_table.setColumnCount(4)
-        self.order_table.setHorizontalHeaderLabels(["ID", "Table", "Total", "Facture"])
-
-        for row, order in enumerate(self.orders):
-            self.order_table.setItem(row, 0, QTableWidgetItem(str(order["id"])))
-            self.order_table.setItem(row, 1, QTableWidgetItem(str(order["table_no"])))
-            self.order_table.setItem(row, 2, QTableWidgetItem(f"{order['price']:.2f}"))
-
-            btn = QPushButton("Voir Facture")
-            if "facture" in order and os.path.exists(order["facture"]):
-                pdf_path = order["facture"]
-                btn.clicked.connect(lambda _, pdf=pdf_path: self.open_pdf(pdf))
-            else:
-                btn.setEnabled(False)
-
-            self.order_table.setCellWidget(row, 3, btn)
+        self.orders = self.load_orders_for_date(date)
+        self.order_table = self.create_order_table(self.orders)
 
         layout.addWidget(self.order_table)
         self.setLayout(layout)
 
+    def load_orders_for_date(self, date):
+        """
+        Charge les commandes depuis le fichier JSON et filtre celles correspondant à la date donnée.
+        """
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        json_path = os.path.join(base_dir, "database", "reservations.json")
+
+        with open(json_path, "r", encoding="utf-8") as f:
+            all_orders = json.load(f)
+
+        return [order for order in all_orders if order.get("date") == date]
+
+    def create_order_table(self, orders):
+        """
+        Crée et remplit le tableau d’affichage des commandes avec boutons de visualisation des factures.
+        """
+        table = QTableWidget(len(orders), 4)
+        table.setHorizontalHeaderLabels(["ID", "Table", "Total", "Facture"])
+
+        for row, order in enumerate(orders):
+            table.setItem(row, 0, QTableWidgetItem(str(order.get("id", ""))))
+            table.setItem(row, 1, QTableWidgetItem(str(order.get("table_no", ""))))
+            table.setItem(row, 2, QTableWidgetItem(f"{order.get('price', 0):.2f}"))
+
+            button = self.create_invoice_button(order.get("facture"))
+            table.setCellWidget(row, 3, button)
+
+        return table
+
+    def create_invoice_button(self, pdf_path):
+        """
+        Crée un bouton permettant d’ouvrir une facture PDF si le chemin est valide.
+        """
+        btn = QPushButton("Voir Facture")
+        if pdf_path and os.path.exists(pdf_path):
+            btn.clicked.connect(lambda _, path=pdf_path: self.open_pdf(path))
+        else:
+            btn.setEnabled(False)
+        return btn
+
     def open_pdf(self, file_path):
+        """
+        Permet d’ouvrir une facture PDF dans le lecteur de fichiers par défaut.
+        """
         QDesktopServices.openUrl(QUrl.fromLocalFile(file_path))

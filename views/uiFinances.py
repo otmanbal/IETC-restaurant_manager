@@ -81,3 +81,16 @@ class InterfaceFinance(QWidget):
             self.afficherDonnees()
         except ValueError:
             QMessageBox.critical(self, "Erreur", "Vérifiez les valeurs saisies.")
+
+
+    def afficherDonnees(self):
+        """
+            Charge les données financières et les affiche ligne par ligne dans le tableau de l’interface.
+        """
+        donnees = chargerDonnees()
+        self.table.setRowCount(len(donnees))
+        for row, entree in enumerate(donnees):
+            self.table.setItem(row, 0, QTableWidgetItem(str(entree["id"])))
+            self.table.setItem(row, 1, QTableWidgetItem(entree["date"]))
+            self.table.setItem(row, 2, QTableWidgetItem(entree["type_paiement"]))
+            self.table.setItem(row, 3, QTableWidgetItem(str(entree["total_facture"])))

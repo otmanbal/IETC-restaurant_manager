@@ -94,3 +94,12 @@ class InterfaceFinance(QWidget):
             self.table.setItem(row, 1, QTableWidgetItem(entree["date"]))
             self.table.setItem(row, 2, QTableWidgetItem(entree["type_paiement"]))
             self.table.setItem(row, 3, QTableWidgetItem(str(entree["total_facture"])))
+
+    def generateReport(self):
+        """
+            Génère un rapport PDF à l’aide d’une fonction externe,
+            puis affiche une boîte de dialogue pour confirmer la réussite de l’opération.
+        """
+        generateReport()
+        QMessageBox.information(self, "Rapport", "Le rapport a été généré avec succès.")
+        

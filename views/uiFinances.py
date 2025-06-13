@@ -60,4 +60,24 @@ class InterfaceFinance(QWidget):
         layout.addWidget(self.table)
 
         self.setLayout(layout)
-        
+
+    
+    def ajouterDonnee(self):
+        """
+            Récupère les données saisies, les valide et les enregistre puis
+            affiche un message de succès ou une erreur selon le cas,
+            puis met à jour l’affichage de la table.
+        """
+        try:
+            id_val = int(self.id_input.text())
+            total = float(self.total_input.text())
+            type_paiement = self.type_input.currentText()
+            date = datetime.today().strftime('%Y-%m-%d')
+
+            ajouterEntree(id_val, date, type_paiement, total)
+            QMessageBox.information(self, "Succès", "Donnée ajoutée avec succès.")
+            self.id_input.clear()
+            self.total_input.clear()
+            self.afficherDonnees()
+        except ValueError:
+            QMessageBox.critical(self, "Erreur", "Vérifiez les valeurs saisies.")

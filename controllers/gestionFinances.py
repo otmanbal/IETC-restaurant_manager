@@ -14,3 +14,13 @@ def chargerDonnees():
             return json.load(fichier)
     except FileNotFoundError:
         return []
+
+
+def sauvegarderDonnees(donnees):
+    """
+        Ouvre le fichier en écriture.
+        Ecrit les données passées en argument dans le fichier JSON, 
+        avec indentation pour faciliter la lecture
+    """
+    with open(FICHIER_JSON, 'w', encoding='utf-8') as fichier:
+        json.dump(donnees, fichier, indent = 4, ensure_ascii = False)

@@ -3,8 +3,8 @@ from PySide6.QtWidgets import (
     QLineEdit, QPushButton, QComboBox, QTableWidget,
     QTableWidgetItem, QMessageBox
 )
-from models.gestionFinances import ajouterEntree, chargerDonnees
-from models.rapportFinances import generateReport
+from controllers.gestionFinances import ajouterEntree, chargerDonnees
+from controllers.rapportFinances import generateReport
 from datetime import datetime
 import sys
 

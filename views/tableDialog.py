@@ -50,3 +50,19 @@ class tableDialog(QDialog):
         form.addWidget(self.btn_ok)
 
         main.addWidget(self.zone)
+
+    def _add_items(self, layout, title, items, attr_name):
+        layout.addWidget(QLabel(title))
+        spins = []
+        for item in items:
+            line = QHBoxLayout()
+            label = QLabel(str(item))
+            spin = QSpinBox()
+            spin.setRange(0, 99)
+            spin.item = item
+            spin.valueChanged.connect(self.update_total)
+            line.addWidget(label)
+            line.addWidget(spin)
+            layout.addLayout(line)
+            spins.append(spin)
+        setattr(self, attr_name, spins)

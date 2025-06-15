@@ -84,3 +84,9 @@ class tableDialog(QDialog):
     def show_order_widgets(self):
         self.zone.show()
         
+    def update_total(self):
+        total = 0.0
+        for spin in self.entree_spins + self.plat_spins + self.dessert_spins:
+            total += spin.item.price * spin.value()
+        self.label_total.setText(f"Total : {total:.2f} €")
+        

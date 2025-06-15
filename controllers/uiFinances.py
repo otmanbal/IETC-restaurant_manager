@@ -102,4 +102,12 @@ class InterfaceFinance(QWidget):
         """
         generateReport()
         QMessageBox.information(self, "Rapport", "Le rapport a été généré avec succès.")
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    fenetre = InterfaceFinance()
+    fenetre.show()
+    sys.exit(app.exec())
+
         

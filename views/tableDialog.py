@@ -10,10 +10,10 @@ class tableDialog(QDialog):
         self.occupied = None
         self.previous_order = previous_order
         self.order = {"entrees": [], "plats": [], "desserts": []}
-        self._build_ui()
-        self._populate_previous_order()
+        self.build_ui()
+        self.populate_previous_order()
 
-    def _build_ui(self):
+    def build_ui(self):
         main = QVBoxLayout(self)
         self.service_combo = QComboBox()
         self.service_combo.addItems(["Service 1 (12h-14h)","Service 2 (15h-17h)","Service 3 (18h-20h)","Service 4 (21h-23h)"])
@@ -38,9 +38,9 @@ class tableDialog(QDialog):
         self.zone = QFrame()
         self.zone.hide()
         form = QVBoxLayout(self.zone)
-        self._add_items(form, "Entrées", CARTE_ENTREES, "entree_spins")
-        self._add_items(form, "Plats", CARTE_PLATS, "plat_spins")
-        self._add_items(form, "Desserts", CARTE_DESSERTS, "dessert_spins")
+        self.add_items(form, "Entrées", CARTE_ENTREES, "entree_spins")
+        self.add_items(form, "Plats", CARTE_PLATS, "plat_spins")
+        self.add_items(form, "Desserts", CARTE_DESSERTS, "dessert_spins")
 
         self.label_total = QLabel("Total : 0.00 €")
         form.addWidget(self.label_total)
@@ -51,7 +51,7 @@ class tableDialog(QDialog):
 
         main.addWidget(self.zone)
 
-    def _add_items(self, layout, title, items, attr_name):
+    def add_items(self, layout, title, items, attr_name):
         layout.addWidget(QLabel(title))
         spins = []
         for item in items:
@@ -66,3 +66,21 @@ class tableDialog(QDialog):
             layout.addLayout(line)
             spins.append(spin)
         setattr(self, attr_name, spins)
+
+    def populate_previous_order(self):
+        if not self.previous_order:
+            return
+
+        def restore(spins, key):
+            items = {item["name"]: item["qty"] for item in self.previous_order.get(key, [])}
+            for spin in spins:
+                if spin.item.name in items:
+                    spin.setValue(items[spin.item.name])
+
+        restore(self.entree_spins, "entrees")
+        restore(self.plat_spins, "plats")
+        restore(self.dessert_spins, "desserts")
+
+    def show_order_widgets(self):
+        self.zone.show()
+        

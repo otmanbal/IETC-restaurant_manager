@@ -49,3 +49,13 @@ def ajouterEntree(id, date, type_paiement, total_facture):
     donnees.append(entree)
     sauvegarderDonnees(donnees)
     print("Entrée ajoutée avec succès.")
+
+
+def afficherFinances():
+    """
+        Charge les données financières.
+        Affiche chaque entrée ligne par ligne dans le terminal.
+    """
+    donnees = chargerDonnees()
+    for entree in donnees:
+        print(entree)

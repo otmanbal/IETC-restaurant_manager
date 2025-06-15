@@ -89,4 +89,27 @@ class tableDialog(QDialog):
         for spin in self.entree_spins + self.plat_spins + self.dessert_spins:
             total += spin.item.price * spin.value()
         self.label_total.setText(f"Total : {total:.2f} €")
-        
+
+    def validate_occupied(self):
+        self.occupied = True
+
+        def collect(spins):
+            return [
+                {"name": spin.item.name, "price": spin.item.price, "qty": spin.value()}
+                for spin in spins if spin.value() > 0
+            ]
+
+        self.order = {
+            "entrees": collect(self.entree_spins),
+            "plats": collect(self.plat_spins),
+            "desserts": collect(self.dessert_spins)
+        }
+        self.accept()
+        selected_service = self.service_combo.currentText()
+        hour_str = self.time_edit.time().toString("HH:mm")
+        self.order["reservation_time"] = f"{selected_service} - {hour_str}"
+        self.order["datetime_iso"] = datetime.now().isoformat()
+
+    def set_free(self):
+        self.occupied = False
+        self.accept()

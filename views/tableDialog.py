@@ -1,5 +1,6 @@
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QHBoxLayout, QPushButton, QFrame, QSpinBox, QComboBox, QTimeEdit
-from PySide6.QtCore import Qt, QTime
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QHBoxLayout, QPushButton, QFrame, QSpinBox, QComboBox, QTimeEdit, QLineEdit, QScrollArea, QWidget
+from PySide6.QtCore import Qt, QTime, QRegularExpression
+from PySide6.QtGui import QRegularExpressionValidator
 from datetime import datetime
 from models.menu import CARTE_ENTREES, CARTE_PLATS, CARTE_DESSERTS
 
@@ -7,6 +8,7 @@ class tableDialog(QDialog):
     def __init__(self, table_label: str, previous_order=None, parent=None):
         super().__init__(parent)
         self.setWindowTitle(table_label)
+        self.setFixedSize(300, 750)
         self.occupied = None
         self.previous_order = previous_order
         self.order = {"entrees": [], "plats": [], "desserts": []}
@@ -14,7 +16,27 @@ class tableDialog(QDialog):
         self.populate_previous_order()
 
     def build_ui(self):
+        scroll_area = QScrollArea(self)
+        scroll_area.setWidgetResizable(True)
+        container = QWidget()
+        scroll_area.setWidget(container)
+        
         main = QVBoxLayout(self)
+
+        self.first_name_input = QLineEdit()
+        self.last_name_input = QLineEdit()
+        self.phone_input = QLineEdit()
+        
+        phone_validator = QRegularExpressionValidator(QRegularExpression(r"\d+"))
+        self.phone_input.setValidator(phone_validator)
+        
+        main.addWidget(QLabel("Prénom :"))
+        main.addWidget(self.first_name_input)
+        main.addWidget(QLabel("Nom :"))
+        main.addWidget(self.last_name_input)
+        main.addWidget(QLabel("Numéro de téléphone :"))
+        main.addWidget(self.phone_input)
+        
         self.service_combo = QComboBox()
         self.service_combo.addItems(["Service 1 (12h-14h)","Service 2 (15h-17h)","Service 3 (18h-20h)","Service 4 (21h-23h)"])
         main.addWidget(QLabel("Choisissez le service :"))
@@ -50,6 +72,9 @@ class tableDialog(QDialog):
         form.addWidget(self.btn_ok)
 
         main.addWidget(self.zone)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(scroll_area)
 
     def add_items(self, layout, title, items, attr_name):
         layout.addWidget(QLabel(title))
@@ -99,7 +124,10 @@ class tableDialog(QDialog):
                 for spin in spins if spin.value() > 0
             ]
 
-        self.order = {
+       self.order = {
+            "prenom": self.first_name_input.text(),
+            "nom": self.last_name_input.text(),
+            "telephone": self.phone_input.text(),
             "entrees": collect(self.entree_spins),
             "plats": collect(self.plat_spins),
             "desserts": collect(self.dessert_spins)

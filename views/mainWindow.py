@@ -54,3 +54,17 @@ class mainWindow(QMainWindow):
         if not self.is_admin:
             self.action_admin.setEnabled(False)
             self.action_finance.setEnabled(False)
+
+    
+        # Spacer pour pousser le profil à droite
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        toolbar.addWidget(spacer)
+
+        # Icône de profil avec menu
+        profile_pixmap = QPixmap("ressources/images/pdp.webp")
+        profile_icon = QIcon(profile_pixmap.scaled(40, 40))
+        action_profil = QAction(profile_icon, "", self)
+        action_profil.setToolTip("Profil")
+        toolbar.addAction(action_profil)
+        toolbar.setIconSize(QSize(40, 40))

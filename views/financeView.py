@@ -162,3 +162,4 @@ class MainWindow(QWidget):
         ]
 
         self.finance_view.populate_daily_totals(daily_total_list)
+

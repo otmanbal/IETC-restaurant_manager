@@ -1,1 +1,56 @@
+from PySide6.QtWidgets import (
+    QMainWindow, QToolBar, QStackedWidget, QWidget,
+    QSizePolicy, QMenu
+)
+from PySide6.QtGui import QPixmap, QIcon, QAction
+from PySide6.QtCore import QSize, QPoint, QTimer
 
+from views.tableView import TableView
+from views.adminView import AdminView
+from views.financeView import FinanceView
+from views.loginView import LoginPage
+
+
+class mainWindow(QMainWindow):
+    def __init__(self, username=None, is_admin=False):
+        super().__init__()
+        self.setWindowTitle(f"Restaurant Manager - Connecté en tant que {username}")
+        self.resize(800, 600)
+
+        self.username = username
+        self.is_admin = is_admin
+
+        # Navigation
+        toolbar = QToolBar("Navigation")
+        self.addToolBar(toolbar)
+
+        # Stack central
+        self.stack = QStackedWidget()
+        self.setCentralWidget(self.stack)
+
+        # Pages
+        self.page_tables = TableView()
+        self.page_admin = AdminView()
+        self.page_finance = FinanceView()
+
+        self.stack.addWidget(self.page_tables)    # index 0
+        self.stack.addWidget(self.page_admin)     # index 1
+        self.stack.addWidget(self.page_finance)   # index 2
+
+        # Actions navigation
+        self.action_tables = QAction("Tables", self)
+        self.action_tables.triggered.connect(lambda: self.stack.setCurrentIndex(0))
+        toolbar.addAction(self.action_tables)
+
+        self.action_admin = QAction("Admin", self)
+        self.action_admin.triggered.connect(lambda: self.stack.setCurrentIndex(1))
+        toolbar.addAction(self.action_admin)
+
+        self.action_finance = QAction("Finance", self)
+        self.action_finance.triggered.connect(lambda: self.stack.setCurrentIndex(2))
+        toolbar.addAction(self.action_finance)
+
+        # Restriction des actions si non admin
+        if not self.is_admin:
+            self.action_admin.setEnabled(False)
+            self.action_finance.setEnabled(False)

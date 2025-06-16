@@ -55,7 +55,6 @@ class mainWindow(QMainWindow):
             self.action_admin.setEnabled(False)
             self.action_finance.setEnabled(False)
 
-    
         # Spacer pour pousser le profil à droite
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -68,3 +67,24 @@ class mainWindow(QMainWindow):
         action_profil.setToolTip("Profil")
         toolbar.addAction(action_profil)
         toolbar.setIconSize(QSize(40, 40))
+        
+        # Menu contextuel pour profil
+        self.profile_menu = QMenu(self)
+        self.profile_menu.addAction("Se déconnecter", self.logout)
+        action_profil.triggered.connect(self.show_profile_menu)
+
+    def show_profile_menu(self):
+        pos = self.mapToGlobal(QPoint(self.width() - 60, 50))
+        self.profile_menu.exec(pos)
+
+    def logout(self):
+        self.login_page = LoginPage()
+        self.login_page.login_successful.connect(self.reopen_main_window)
+        self.login_page.show()
+
+        QTimer.singleShot(0, self.close)
+
+    def reopen_main_window(self, username, is_admin):
+        self.login_page.close()
+        self.new_window = mainWindow(username=username, is_admin=is_admin)
+        self.new_window.show()

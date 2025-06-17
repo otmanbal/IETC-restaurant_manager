@@ -40,3 +40,10 @@ def close_table(table_id: int) -> None:
             entry["status"] = "free"
             break
     write_orders(data)
+
+def get_last_order(table_id: int) -> dict | None:
+    data = read_orders()
+    for entry in reversed(data):
+        if entry["table"] == table_id and entry["status"] == "occupied":
+            return entry["order"]
+    return None

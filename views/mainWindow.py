@@ -39,7 +39,8 @@ class mainWindow(QMainWindow):
 
         self.stack.addWidget(self.page_tables)    # index 0
         self.stack.addWidget(self.page_admin)     # index 1
-        self.stack.addWidget(self.page_finance)   # index 2
+        self.stack.addWidget(self.page_finance_rapport)   # index 2
+         self.stack.addWidget(self.page_finance)   # index 3
 
         # Actions navigation
         self.action_tables = QAction("Tables", self)
@@ -50,14 +51,19 @@ class mainWindow(QMainWindow):
         self.action_admin.triggered.connect(lambda: self.stack.setCurrentIndex(1))
         toolbar.addAction(self.action_admin)
 
+        self.action_rapport_finance = QAction("Rapport Finance", self)
+        self.action_rapport_finance.triggered.connect(lambda: self.stack.setCurrentIndex(2))
+        toolbar.addAction(self.action_rapport_finance)
+
         self.action_finance = QAction("Finance", self)
-        self.action_finance.triggered.connect(lambda: self.stack.setCurrentIndex(2))
+        self.action_finance.triggered.connect(lambda: self.stack.setCurrentIndex(3))
         toolbar.addAction(self.action_finance)
 
         # Restriction des actions si non admin
         if not self.is_admin:
             self.action_admin.setEnabled(False)
             self.action_finance.setEnabled(False)
+            self.action_rapport_finance.setEnabled(False)
 
         # Spacer pour pousser le profil à droite
         spacer = QWidget()

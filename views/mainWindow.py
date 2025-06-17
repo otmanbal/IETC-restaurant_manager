@@ -40,7 +40,7 @@ class mainWindow(QMainWindow):
         self.stack.addWidget(self.page_tables)    # index 0
         self.stack.addWidget(self.page_admin)     # index 1
         self.stack.addWidget(self.page_finance_rapport)   # index 2
-         self.stack.addWidget(self.page_finance)   # index 3
+        self.stack.addWidget(self.page_finance)   # index 3
 
         # Actions navigation
         self.action_tables = QAction("Tables", self)

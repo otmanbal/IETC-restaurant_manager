@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
 )
 from .ordersByDateView import OrdersByDateView
 from collections import defaultdict
-from uiFinances import InterfaceFinance
+from controllers.uiFinances import InterfaceFinance
 from controllers.rapportFinances import generateReport
 from controllers.gestionFinances import chargerDonnees
 

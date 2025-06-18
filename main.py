@@ -1,6 +1,6 @@
 import sys
 from PySide6.QtWidgets import QApplication
-from views.loginView import loginPage
+from views.loginView import LoginPage
 from views.mainWindow import mainWindow
 
 

@@ -53,21 +53,21 @@ class AdminView(QWidget):
 
         self.load_employees()
 
-        def load_employees(self):
-    
-            file_path = Path(__file__).parent.parent / "database" / "employes.json"
-            try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    users = data.get("users", [])
-                    self.table.setRowCount(len(users))
-                    for row, user in enumerate(users):
-                        self.table.setItem(row, 0, QTableWidgetItem(str(user.get("id", ""))))
-                        self.table.setItem(row, 1, QTableWidgetItem(user.get("nom", "")))
-                        self.table.setItem(row, 2, QTableWidgetItem("Administrateur" if user.get("isAdmin") else "Employé"))
-                        self.table.setItem(row, 3, QTableWidgetItem("Actif"))  # ou autre statut par défaut
-            except Exception as e:
-                QMessageBox.critical(self, "Erreur", f"Impossible de charger les employés : {e}")
+    def load_employees(self):
+
+        file_path = Path(__file__).parent.parent / "database" / "employes.json"
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                users = data.get("users", [])
+                self.table.setRowCount(len(users))
+                for row, user in enumerate(users):
+                    self.table.setItem(row, 0, QTableWidgetItem(str(user.get("id", ""))))
+                    self.table.setItem(row, 1, QTableWidgetItem(user.get("nom", "")))
+                    self.table.setItem(row, 2, QTableWidgetItem("Administrateur" if user.get("isAdmin") else "Employé"))
+                    self.table.setItem(row, 3, QTableWidgetItem("Actif"))  # ou autre statut par défaut
+        except Exception as e:
+            QMessageBox.critical(self, "Erreur", f"Impossible de charger les employés : {e}")
 
     def add_employee(self):
         QMessageBox.information(self, "Ajouter", "Fonction 'Ajouter' à implémenter")

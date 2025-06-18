@@ -6,8 +6,6 @@ from PySide6.QtGui import QPixmap, QIcon, QAction
 from PySide6.QtCore import QSize, QPoint, QTimer
 
 from controllers.uiFinances import InterfaceFinance
-from views.menuView import MenuView
-from views.financeView import FinanceSummaryView
 from views.tableView import tableView
 from views.adminView import AdminView
 from views.financeView import FinanceView

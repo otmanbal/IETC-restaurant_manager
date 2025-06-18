@@ -91,16 +91,45 @@ PROJET-POO/
 
 ## Installation et Lancement
 ### Prérequis:
-Le projet est compatible avec Python 3.13.
+Gestionnaire de paquet : pip
+Une version du langage de programmation : python
+❗ **Important** : Ce projet n’est compatible qu'avec les versions comprises entre 3.10 et 3.6 de python.
 ### 1. Cloner le projet
 ```bash
 git clone https://github.com/otmanbal/IETC-restaurant_manager.git
 ```
-### 2. Installer les dépendances
+### 2. Accéder au dossier contenant le projet
+```bash
+cd .\IETC-restaurant_manager\
+```
+### 3. Créer un environnement virtuel
+```bash
+# Windows
+python -m venv env
+
+# macOS / Linux
+python3 -m venv env
+```
+### 4. ACtiver l'environnement virtuel
+```bash
+# Windows (PowerShell)
+.\env\Scripts\Activate.ps1
+
+# Windows (CMD)
+.\env\Scripts\activate.bat
+
+# macOS / Linux
+source env/bin/activate
+```
+### 5. Installer les dépendances
 ```bash
 pip install -r requirements.txt
 ```
-### 3. Lancer l’application
+### 6. Lancer l’application
 ```bash
+#Windows
 python main.py
+
+#macOS / Linux
+python3 main.py
 ```

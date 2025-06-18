@@ -15,15 +15,7 @@ def main():
         main_window = mainWindow()
         main_window.show()
 
-    login.login_successful.connect(handle_login)
-
-        login.close()
-        main_window = mainWindow(username=username, is_admin=is_admin)
-        main_window.show()
-        
-    login.login_successful.connect(handle_login)
-    
-
+    login.login_successful.connect(handle_login)    
     sys.exit(app.exec())
 
 

@@ -124,7 +124,7 @@ class tableDialog(QDialog):
                 for spin in spins if spin.value() > 0
             ]
 
-       self.order = {
+        self.order = {
             "prenom": self.first_name_input.text(),
             "nom": self.last_name_input.text(),
             "telephone": self.phone_input.text(),

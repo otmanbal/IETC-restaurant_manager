@@ -5,12 +5,11 @@ from PySide6.QtWidgets import (
 from PySide6.QtGui import QPixmap, QIcon, QAction
 from PySide6.QtCore import QSize, QPoint, QTimer
 
-from controllers.uiFinances import InterfaceFinance
 from views.tableView import tableView
 from views.adminView import AdminView
 from views.financeView import FinanceView
 from views.loginView import LoginPage
-
+from views.rapportView import RapportView
 
 class mainWindow(QMainWindow):
     def __init__(self, username=None, is_admin=False):
@@ -32,7 +31,7 @@ class mainWindow(QMainWindow):
         # Pages
         self.page_tables = tableView()
         self.page_admin = AdminView()
-        self.page_finance_rapport = InterfaceFinance()
+        self.page_finance_rapport = RapportView()
         self.page_finance = FinanceView()
 
         self.stack.addWidget(self.page_tables)    # index 0

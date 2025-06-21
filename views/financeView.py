@@ -6,8 +6,6 @@ from PySide6.QtWidgets import ( # type: ignore
 )
 from .ordersByDateView import OrdersByDateView
 
-from controllers.rapportFinances import generateReport
-from controllers.gestionFinances import chargerDonnees
 
 
 class FinanceView(QWidget):

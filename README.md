@@ -100,7 +100,11 @@ git clone https://github.com/otmanbal/IETC-restaurant_manager.git
 ```
 ### 2. Accéder au dossier contenant le projet
 ```bash
+#Windows
 cd .\IETC-restaurant_manager\
+
+#macOS / Linux
+cd IETC-restaurant_manager/
 ```
 ### 3. Créer un environnement virtuel
 ```bash

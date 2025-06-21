@@ -1,14 +1,11 @@
 import sys
 import json
-from PySide6.QtWidgets import (
+from PySide6.QtWidgets import ( # type: ignore
     QApplication, QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
     QHeaderView, QAbstractScrollArea, QScrollArea
 )
 from .ordersByDateView import OrdersByDateView
-from collections import defaultdict
-from controllers.uiFinances import InterfaceFinance
-from controllers.rapportFinances import generateReport
-from controllers.gestionFinances import chargerDonnees
+
 
 
 class FinanceView(QWidget):
@@ -111,78 +108,3 @@ class FinanceView(QWidget):
         selected_date = date_item.text()
         self.order_view = OrdersByDateView(selected_date)
         self.order_view.show()
-
-
-
-
-class MainWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Application de gestion financière du restaurant")
-        self.setGeometry(100, 100, 1000, 700)
-        self.init_ui()
-
-    def init_ui(self):
-        """
-            Initialise l’interface graphique : crée un système d’onglets avec les vues de finance,
-            ajoute un bouton pour générer un rapport PDF, et affiche les données financières.
-        """
-        layout = QVBoxLayout(self)
-
-        self.tabs = QTabWidget()
-
-        self.interface_finance = InterfaceFinance()
-        self.tabs.addTab(self.interface_finance, "Gestion des paiements")
-
-        self.finance_view = FinanceView()
-        self.tabs.addTab(self.finance_view, "Vue des finances")
-
-        self.btn_imprimer = QPushButton("Imprimer le rapport PDF")
-        self.btn_imprimer.clicked.connect(self.generateReport)
-
-        layout.addWidget(self.tabs)
-        layout.addWidget(self.btn_imprimer)
-
-        self.setLayout(layout)
-        self.rafraichirTables()
-
-
-    def generateReport(self):
-        """
-            Génère un rapport PDF, affiche un message de confirmation,
-            puis rafraîchit les tables affichées dans l’interface.
-        """
-        generateReport()
-        QMessageBox.information(self, "Succès", "Le rapport PDF a été généré.")
-        self.rafraichirTables() 
-
-
-    def rafraichirTables(self):
-        """
-            Recharge les données financières depuis la source de données,
-            met à jour l’affichage des paiements individuels dans la vue finance,
-            puis calcule et affiche le total des paiements par jour.
-        """
-        donnees = chargerDonnees()
-        self.finance_view.populate_payments([
-            {
-                "id": d["id"],
-                "table_no": "-",  
-                "date": d["date"],
-                "payment_type": d["type_paiement"],
-                "price": d["total_facture"]
-            }
-            for d in donnees
-        ])
-
-        total_par_jour = defaultdict(float)
-        for d in donnees:
-            total_par_jour[d["date"]] += d["total_facture"]
-
-        daily_total_list = [
-            {"id": i+1, "date": date, "total": total}
-            for i, (date, total) in enumerate(total_par_jour.items())
-        ]
-
-        self.finance_view.populate_daily_totals(daily_total_list)
-

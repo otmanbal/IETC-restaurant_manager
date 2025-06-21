@@ -1,4 +1,6 @@
-from PySide6.QtWidgets import (
+import sys
+from collections import defaultdict
+from PySide6.QtWidgets import ( # type: ignore
     QApplication, QWidget, QVBoxLayout, QLabel,
     QLineEdit, QPushButton, QComboBox, QTableWidget,
     QTableWidgetItem, QMessageBox
@@ -6,26 +8,16 @@ from PySide6.QtWidgets import (
 from controllers.gestionFinances import ajouterEntree, chargerDonnees
 from controllers.rapportFinances import generateReport
 from datetime import datetime
-import sys
+from views.financeView import FinanceView
 
-
-class InterfaceFinance(QWidget):
-    """
-        Constructeur de la fenêtre principale : initialise la fenêtre,
-        définit son titre et sa taille, puis lance la création de l’interface utilisateur.
-    """
+class RapportView(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gestion des finances")
         self.setGeometry(200, 200, 800, 4600)
-        self.init_ui()
 
+        #self.tabs = QTabWidget() # type: ignore
 
-    def init_ui(self):
-        """
-            Initialise l’interface graphique pour la saisie et la gestion des données financières :
-            champs de saisie, boutons d’action, et tableau d’affichage des données.
-        """
         layout = QVBoxLayout()
 
         self.id_input = QLineEdit()
@@ -61,7 +53,17 @@ class InterfaceFinance(QWidget):
 
         self.setLayout(layout)
 
-    
+        self.finance_view = FinanceView()
+
+        self.btn_imprimer = QPushButton("Imprimer le rapport PDF")
+        self.btn_imprimer.clicked.connect(self.generateReport)
+
+        layout.addWidget(self.btn_imprimer)
+
+        self.setLayout(layout)
+        self.rafraichirTables()
+
+
     def ajouterDonnee(self):
         """
             Récupère les données saisies, les valide et les enregistre puis
@@ -97,17 +99,39 @@ class InterfaceFinance(QWidget):
 
     def generateReport(self):
         """
-            Génère un rapport PDF à l’aide d’une fonction externe,
-            puis affiche une boîte de dialogue pour confirmer la réussite de l’opération.
+            Génère un rapport PDF, affiche un message de confirmation,
+            puis rafraîchit les tables affichées dans l’interface.
         """
         generateReport()
-        QMessageBox.information(self, "Rapport", "Le rapport a été généré avec succès.")
+        QMessageBox.information(self, "Succès", "Le rapport PDF a été généré.")
+        self.rafraichirTables() 
 
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    fenetre = InterfaceFinance()
-    fenetre.show()
-    sys.exit(app.exec())
+    def rafraichirTables(self):
+        """
+            Recharge les données financières depuis la source de données,
+            met à jour l’affichage des paiements individuels dans la vue finance,
+            puis calcule et affiche le total des paiements par jour.
+        """
+        donnees = chargerDonnees()
+        self.finance_view.populate_payments([
+            {
+                "id": d["id"],
+                "table_no": "-",  
+                "date": d["date"],
+                "payment_type": d["type_paiement"],
+                "price": d["total_facture"]
+            }
+            for d in donnees
+        ])
 
-        
+        total_par_jour = defaultdict(float)
+        for d in donnees:
+            total_par_jour[d["date"]] += d["total_facture"]
+
+        daily_total_list = [
+            {"id": i+1, "date": date, "total": total}
+            for i, (date, total) in enumerate(total_par_jour.items())
+        ]
+
+        self.finance_view.populate_daily_totals(daily_total_list)

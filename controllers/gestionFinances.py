@@ -1,4 +1,5 @@
 import json
+import random
 from datetime import datetime
 
 FICHIER_JSON = 'database/finances.json'
@@ -40,7 +41,7 @@ def ajouterEntree(id, date, type_paiement, total_facture):
     
     donnees = chargerDonnees()
     entree = {
-        "id": id,
+        "Num TVA": id,
         "date": date,
         "type_paiement": type_paiement,
         "total_facture": total_facture
@@ -59,3 +60,12 @@ def afficherFinances():
     donnees = chargerDonnees()
     for entree in donnees:
         print(entree)
+        
+
+def genererNumTva():
+    """
+        fonction pour generer un numéro TVA au format BE + 9 chiffres
+    """
+    while True:
+        num = f"BE{random.randint(100000000, 999999999)}"
+        return num

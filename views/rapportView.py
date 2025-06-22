@@ -5,7 +5,7 @@ from PySide6.QtWidgets import ( # type: ignore
     QLineEdit, QPushButton, QComboBox, QTableWidget,
     QTableWidgetItem, QMessageBox
 )
-from controllers.gestionFinances import ajouterEntree, chargerDonnees
+from controllers.gestionFinances import ajouterEntree, chargerDonnees, genererNumTva
 from controllers.rapportFinances import generateReport
 from datetime import datetime
 from views.financeView import FinanceView
@@ -19,9 +19,6 @@ class RapportView(QWidget):
         #self.tabs = QTabWidget() # type: ignore
 
         layout = QVBoxLayout()
-
-        self.id_input = QLineEdit()
-        self.id_input.setPlaceholderText("ID")
 
         self.total_input = QLineEdit()
         self.total_input.setPlaceholderText("Total facture")
@@ -40,10 +37,9 @@ class RapportView(QWidget):
 
         self.table = QTableWidget()
         self.table.setColumnCount(4)
-        self.table.setHorizontalHeaderLabels(["ID", "Date", "Paiement", "Total"])
+        self.table.setHorizontalHeaderLabels(["Num TVA", "Date", "Paiement", "Total"])
 
         layout.addWidget(QLabel("Ajouter une entrée financière :"))
-        layout.addWidget(self.id_input)
         layout.addWidget(self.total_input)
         layout.addWidget(self.type_input)
         layout.addWidget(self.btn_ajouter)
@@ -71,14 +67,13 @@ class RapportView(QWidget):
             puis met à jour l’affichage de la table.
         """
         try:
-            id_val = int(self.id_input.text())
+            id = genererNumTva()
             total = float(self.total_input.text())
             type_paiement = self.type_input.currentText()
             date = datetime.today().strftime('%Y-%m-%d')
 
-            ajouterEntree(id_val, date, type_paiement, total)
-            QMessageBox.information(self, "Succès", "Donnée ajoutée avec succès.")
-            self.id_input.clear()
+            ajouterEntree(id, date, type_paiement, total)
+            QMessageBox.information(self, "Succès", f"Donnée ajoutée avec succès.\nNum TVA: {id}")
             self.total_input.clear()
             self.afficherDonnees()
         except ValueError:
@@ -92,7 +87,7 @@ class RapportView(QWidget):
         donnees = chargerDonnees()
         self.table.setRowCount(len(donnees))
         for row, entree in enumerate(donnees):
-            self.table.setItem(row, 0, QTableWidgetItem(str(entree["id"])))
+            self.table.setItem(row, 0, QTableWidgetItem(str(entree["Num TVA"])))
             self.table.setItem(row, 1, QTableWidgetItem(entree["date"]))
             self.table.setItem(row, 2, QTableWidgetItem(entree["type_paiement"]))
             self.table.setItem(row, 3, QTableWidgetItem(str(entree["total_facture"])))
@@ -116,7 +111,7 @@ class RapportView(QWidget):
         donnees = chargerDonnees()
         self.finance_view.populate_payments([
             {
-                "id": d["id"],
+                "id": "id",
                 "table_no": "-",  
                 "date": d["date"],
                 "payment_type": d["type_paiement"],

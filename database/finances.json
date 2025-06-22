@@ -1,0 +1,44 @@
+[
+    {
+        "Num TVA": "BE252513011",
+        "date": "2025-06-21",
+        "type_paiement": "virement",
+        "total_facture": 500.0
+    },
+    {
+        "Num TVA": "BE932566063",
+        "date": "2025-06-22",
+        "type_paiement": "cache",
+        "total_facture": 400.0
+    },
+    {
+        "Num TVA": "BE304486494",
+        "date": "2025-06-22",
+        "type_paiement": "cache",
+        "total_facture": 450.0
+    },
+    {
+        "Num TVA": "BE824663969",
+        "date": "2025-06-22",
+        "type_paiement": "virement",
+        "total_facture": 240.0
+    },
+    {
+        "Num TVA": "BE189252881",
+        "date": "2025-06-22",
+        "type_paiement": "virement",
+        "total_facture": 750.0
+    },
+    {
+        "Num TVA": "BE905537180",
+        "date": "2025-06-22",
+        "type_paiement": "virement",
+        "total_facture": 952.0
+    },
+    {
+        "Num TVA": "BE869212888",
+        "date": "2025-06-22",
+        "type_paiement": "virement",
+        "total_facture": 1500.0
+    }
+]

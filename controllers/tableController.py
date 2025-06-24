@@ -1,5 +1,6 @@
 from views.tableDialog import tableDialog
 from models.persist import get_last_order, add_order, close_table
+from models.order_logic import calculer_total
 
 class tableController:
     """
@@ -29,8 +30,7 @@ class tableController:
             btn = self.main_window.buttons[table_id]
             if dialog.occupied:
                 add_order(table_id, dialog.order)
-                order = dialog.order
-                total = sum(item["price"] * item["qty"] for key in ("entrees", "plats", "desserts") for item in order.get(key, []))
+                total = calculer_total(dialog.order)
                 btn.setStyleSheet("background-color: red;")
                 btn.setText(f"{label}\nTotal : {total:.2f} €")
             else:

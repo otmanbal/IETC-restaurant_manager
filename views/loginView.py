@@ -9,9 +9,18 @@ from PySide6.QtCore import Signal, Qt
 
 
 class LoginPage(QWidget):
+    """
+    Interface de connexion pour les utilisateurs de l'application Restaurant Manager.
+    Permet de saisir un nom d'utilisateur et un mot de passe, puis vérifie les identifiants.
+    """
+    
     login_successful = Signal(str, bool)  # Ajout de isAdmin au signal
 
     def __init__(self):
+        """
+        Initialise la fenêtre de connexion.
+        Charge les utilisateurs depuis le fichier JSON et construit un index.
+        """
         super().__init__()
         self.setWindowTitle("Connexion - Restaurant Manager")
         self.setFixedSize(300, 200)
@@ -20,6 +29,11 @@ class LoginPage(QWidget):
         self.init_ui()
 
     def init_ui(self):
+        """
+        Crée et organise les widgets de l'interface graphique.
+        Inclut les champs pour le nom d'utilisateur et le mot de passe,
+        ainsi qu'un bouton pour se connecter.
+        """
         layout = QVBoxLayout()
 
         self.label_info = QLabel("Veuillez vous connecter")
@@ -43,6 +57,13 @@ class LoginPage(QWidget):
         self.setLayout(layout)
         
     def load_users(self):
+        """
+        Charge la liste des utilisateurs depuis un fichier JSON.
+        Affiche un message d'erreur si le fichier est introuvable ou invalide.
+
+        Retourne :
+            list : Liste des utilisateurs chargés ou liste vide en cas d'erreur.
+        """
         file_path = Path(__file__).parent.parent / "database" / "employes.json"
         if not os.path.exists(file_path):
             QMessageBox.critical(self, "Erreur", "Fichier des utilisateurs introuvable.")
@@ -57,6 +78,15 @@ class LoginPage(QWidget):
             return []
 
     def create_user_index(self, users_list):
+        """
+        Crée un index des utilisateurs pour une recherche rapide.
+
+        Paramètres :
+            users_list (list) : Liste des utilisateurs chargés depuis le fichier.
+
+        Retourne :
+            dict : Index sous forme {nom: {mot_de_passe, isAdmin}}.
+        """
         # Création d’un index {nom: {mot_de_passe, isAdmin}}
         user_index = {}
         for user in users_list:
@@ -67,6 +97,10 @@ class LoginPage(QWidget):
         return user_index
 
     def check_credentials(self):
+        """
+        Vérifie les identifiants saisis dans les champs utilisateur et mot de passe.
+        Émet un signal si la connexion est réussie, sinon affiche un message d'erreur.
+        """
         username = self.input_username.text().strip()
         password = self.input_password.text().strip()
 

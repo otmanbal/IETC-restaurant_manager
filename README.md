@@ -113,7 +113,7 @@ cd IETC-restaurant_manager/
 # Pour Windows, il faut d'abord autoriser les scripts powershell:
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-Ensuite, créer un environnement sur Windows:
+# Ensuite, créer un environnement sur Windows:
 python -m venv env
 
 # macOS / Linux

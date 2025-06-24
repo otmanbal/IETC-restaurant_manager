@@ -1,11 +1,10 @@
 import sys
 import json
-from PySide6.QtWidgets import ( # type: ignore
+from PySide6.QtWidgets import (  # type: ignore
     QApplication, QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
     QHeaderView, QAbstractScrollArea, QScrollArea
 )
 from .ordersByDateView import OrdersByDateView
-
 
 
 class FinanceView(QWidget):
@@ -15,6 +14,12 @@ class FinanceView(QWidget):
     """
 
     def __init__(self):
+        """
+        Initialise l’interface FinanceView avec deux tableaux :
+        un pour les paiements individuels, un autre pour les totaux journaliers.
+        Charge les données depuis un fichier JSON, calcule les totaux journaliers,
+        et peuple les tableaux en conséquence.
+        """
         super().__init__()
         self.setWindowTitle("Finance View")
 
@@ -51,6 +56,7 @@ class FinanceView(QWidget):
         layout.addWidget(QLabel("Daily Totals"))
         layout.addWidget(self.daily_total_table)
         self.setLayout(layout)
+
         # Charger les réservations
         try:
             with open("database/reservations.json", "r") as f:
@@ -71,7 +77,7 @@ class FinanceView(QWidget):
         # Injecter les données dans la page finance
         self.populate_payments(all_reservations)
         self.populate_daily_totals(daily_totals_list)
-        
+
     def populate_payments(self, payment_list):
         """
         Remplit le tableau des paiements avec une liste d’enregistrements de paiement.

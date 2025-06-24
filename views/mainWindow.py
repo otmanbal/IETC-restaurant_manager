@@ -20,7 +20,12 @@ class mainWindow(QMainWindow):
 
     def __init__(self, username=None, is_admin=False):
         """
-        Initialise la fenêtre principale avec les vues nécessaires et la barre de navigation.
+        Initialise la fenêtre principale avec les vues nécessaires, la barre de navigation
+        et les droits d'accès en fonction du rôle de l'utilisateur.
+
+        Paramètres :
+            username (str) : Nom de l'utilisateur connecté.
+            is_admin (bool) : Indique si l'utilisateur a les droits d'administrateur.
         """
         super().__init__()
         self.setWindowTitle(f"Restaurant Manager - Connecté en tant que {username}")
@@ -92,14 +97,16 @@ class mainWindow(QMainWindow):
 
     def show_profile_menu(self):
         """
-        Affiche le menu contextuel du profil utilisateur sous l'icône.
+        Affiche le menu contextuel lié à l'icône de profil utilisateur.
+        Utilisé pour proposer la déconnexion.
         """
         pos = self.mapToGlobal(QPoint(self.width() - 60, 50))
         self.profile_menu.exec(pos)
 
     def logout(self):
         """
-        Déconnecte l'utilisateur et affiche la page de connexion.
+        Déconnecte l'utilisateur actuel.
+        Ferme la fenêtre principale et ouvre une nouvelle page de connexion.
         """
         self.login_page = LoginPage()
         self.login_page.login_successful.connect(self.reopen_main_window)
@@ -110,7 +117,12 @@ class mainWindow(QMainWindow):
 
     def reopen_main_window(self, username, is_admin):
         """
-        Rouvre une nouvelle instance de la fenêtre principale avec les nouveaux identifiants.
+        Rouvre une nouvelle instance de la fenêtre principale avec les identifiants
+        d’un utilisateur fraîchement connecté.
+
+        Paramètres :
+            username (str) : Nom du nouvel utilisateur connecté.
+            is_admin (bool) : Statut administrateur du nouvel utilisateur.
         """
         self.login_page.close()
         self.new_window = mainWindow(username=username, is_admin=is_admin)

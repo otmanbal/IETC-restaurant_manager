@@ -7,7 +7,17 @@ from pathlib import Path
 
 
 class AdminView(QWidget):
+    """
+    Interface graphique pour les administrateurs permettant de visualiser
+    des statistiques et de gérer les employés (CRUD)
+    """
     def __init__(self):
+        """
+        Initialise la vue administrateur avec les sections :
+        - Statistiques des employés
+        - Tableau de gestion des employés
+        - Boutons d'action (Ajouter, Modifier, Supprimer)
+        """
         super().__init__()
         self.setWindowTitle("Vue Admin - Gestion des employés")
         layout = QVBoxLayout()
@@ -54,7 +64,10 @@ class AdminView(QWidget):
         self.load_employees()
 
     def load_employees(self):
-
+        """
+        Charge les données des employés depuis un fichier JSON
+        et les affiche dans le tableau. Gère les erreurs de lecture.
+        """
         file_path = Path(__file__).parent.parent / "database" / "employes.json"
         try:
             with open(file_path, "r", encoding="utf-8") as f:
@@ -70,11 +83,26 @@ class AdminView(QWidget):
             QMessageBox.critical(self, "Erreur", f"Impossible de charger les employés : {e}")
 
     def add_employee(self):
+        """
+        Permet d'ajouter un employé dans le tableau
+        Pour l'instant, affiche une boîte d'information indiquant que la fonction d'ajout
+        d'employé n'est pas encore implémentée.
+        """
         QMessageBox.information(self, "Ajouter", "Fonction 'Ajouter' à implémenter")
 
     def edit_employee(self):
+        """
+        Permet de modifier les informations d'un employé existant.
+        Pour l'instant, affiche une boîte d'information indiquant que la fonction de modification
+        d'employé n'est pas encore implémentée.
+        """
         QMessageBox.information(self, "Modifier", "Fonction 'Modifier' à implémenter")
 
     def delete_employee(self):
+        """
+        Permet de supprimer un employé sélectionné du tableau.
+        Pour l'instant, affiche une boîte d'information indiquant que la fonction de suppression
+        d'employé n'est pas encore implémentée.
+        """
         QMessageBox.information(self, "Supprimer", "Fonction 'Supprimer' à implémenter")
 

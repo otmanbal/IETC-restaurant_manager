@@ -108,7 +108,10 @@ cd IETC-restaurant_manager/
 ```
 ### 3. Créer un environnement virtuel
 ```bash
-# Windows
+# Pour Windows, il faut d'abord autoriser les scripts powershell:
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+Ensuite, créer l'environnement sur Windows:
 python -m venv env
 
 # macOS / Linux

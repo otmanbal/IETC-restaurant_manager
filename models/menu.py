@@ -2,14 +2,25 @@ from dataclasses import dataclass
 
 @dataclass
 class menu:
+    """
+    Classe de base représentant un élément du menu avec un nom et un prix.
+    """
     name: str
     price: float
 
     def __str__(self) -> str:
+        """
+        Retourne une représentation lisible de l'objet menu.
+
+        :return: Chaîne formatée du type "Nom – Prix €"
+        """
         return f"{self.name} – {self.price:.2f} €"
 
+"""Représente une entrée du menu."""
 class Entree(menu): pass
+"""Représente un plat principal du menu."""
 class Plat(menu): pass
+"""Représente un dessert du menu."""
 class Dessert(menu): pass
 
 CARTE_ENTREES = [

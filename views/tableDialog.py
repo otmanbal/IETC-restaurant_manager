@@ -5,7 +5,19 @@ from datetime import datetime
 from models.menu import CARTE_ENTREES, CARTE_PLATS, CARTE_DESSERTS
 
 class tableDialog(QDialog):
+    """
+    Fenêtre de dialogue pour gérer l'état d'une table et enregistrer une commande.
+    Elle permet de saisir les informations du client, l'heure de réservation,
+    le service, et les plats commandés.
+    """
     def __init__(self, table_label: str, previous_order=None, parent=None):
+        """
+        Initialise la boîte de dialogue pour une table donnée.
+
+        :param table_label: Le nom ou numéro de la table (ex: "Table 1")
+        :param previous_order: Dictionnaire d'une commande précédente à recharger (facultatif)
+        :param parent: Le parent Qt (facultatif)
+        """
         super().__init__(parent)
         self.setWindowTitle(table_label)
         self.setFixedSize(300, 750)
@@ -16,6 +28,10 @@ class tableDialog(QDialog):
         self.populate_previous_order()
 
     def build_ui(self):
+        """
+        Construit l'interface utilisateur de la boîte de dialogue :
+        informations client, choix du service, état de la table, et commande.
+        """
         scroll_area = QScrollArea(self)
         scroll_area.setWidgetResizable(True)
         container = QWidget()
@@ -77,6 +93,14 @@ class tableDialog(QDialog):
         layout.addWidget(scroll_area)
 
     def add_items(self, layout, title, items, attr_name):
+        """
+        Ajoute dynamiquement les articles à commander (entrées, plats ou desserts).
+
+        :param layout: Le layout dans lequel les éléments seront ajoutés
+        :param title: Le titre de la section (ex: "Plats")
+        :param items: Liste d'objets représentant les mets
+        :param attr_name: Nom de l'attribut dans lequel stocker les spinbox
+        """
         layout.addWidget(QLabel(title))
         spins = []
         for item in items:
@@ -93,6 +117,10 @@ class tableDialog(QDialog):
         setattr(self, attr_name, spins)
 
     def populate_previous_order(self):
+        """
+        Recharge une commande précédente si elle est fournie.
+        Remplit automatiquement les quantités dans les spinbox.
+        """
         if not self.previous_order:
             return
 
@@ -107,15 +135,24 @@ class tableDialog(QDialog):
         restore(self.dessert_spins, "desserts")
 
     def show_order_widgets(self):
+        """
+        Affiche les champs de commande lorsque la table est marquée comme occupée.
+        """
         self.zone.show()
         
     def update_total(self):
+        """
+        Met à jour le total de la commande en fonction des quantités sélectionnées.
+        """
         total = 0.0
         for spin in self.entree_spins + self.plat_spins + self.dessert_spins:
             total += spin.item.price * spin.value()
         self.label_total.setText(f"Total : {total:.2f} €")
 
     def validate_occupied(self):
+        """
+        Valide la table comme occupée, enregistre les données saisies et accepte la boîte de dialogue.
+        """
         self.occupied = True
 
         def collect(spins):
@@ -139,5 +176,8 @@ class tableDialog(QDialog):
         self.order["datetime_iso"] = datetime.now().isoformat()
 
     def set_free(self):
+        """
+        Marque la table comme libre et ferme la boîte de dialogue.
+        """
         self.occupied = False
         self.accept()

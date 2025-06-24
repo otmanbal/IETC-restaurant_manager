@@ -5,7 +5,16 @@ from controllers.tableController import tableController
 TABLE_SIZE_MAP = {2: (120, 60), 4: (120, 80), 6: (120, 200), 8: (120, 270)}
 
 class tableView(QMainWindow):
+
+    """
+    Vue principale représentant le plan de salle du restaurant.
+    Affiche les tables avec un nombre de places donné,
+    et connecte les actions utilisateur au contrôleur.
+    """
     def __init__(self):
+        """
+        Initialise la fenêtre principale avec le plan de salle et les boutons de table.
+        """
         super().__init__()
         self.setWindowTitle("Les Saveurs Orientales")
         self.setGeometry(150, 100, 1150, 650)
@@ -14,6 +23,9 @@ class tableView(QMainWindow):
         self._setup_ui()
         
     def _setup_ui(self):
+        """
+        Configure l'interface utilisateur : titre, grille de tables et leurs boutons.
+        """
         central = QWidget()
         self.setCentralWidget(central)
         layout = QVBoxLayout(central)
@@ -27,6 +39,16 @@ class tableView(QMainWindow):
         layout.addLayout(grid)
 
         def add_table(id, row, col, rowspan, colspan, seats):
+            """
+            Ajoute un bouton de table à la grille.
+
+            :param id: Identifiant unique de la table
+            :param row: Ligne dans la grille
+            :param col: Colonne dans la grille
+            :param rowspan: Nombre de lignes que la table occupe
+            :param colspan: Nombre de colonnes que la table occupe
+            :param seats: Nombre de places de la table
+            """
             label = f"Table {seats} places"
             btn = QPushButton(label)
             w, h = TABLE_SIZE_MAP[seats]

@@ -92,6 +92,7 @@ PROJET-POO/
 ## Installation et Lancement
 ### Prérequis:
 Gestionnaire de paquet : pip
+
 ❗ **Important** : Ce projet n’est compatible qu'avec les versions comprises entre 3.13 et 3.9 de python.
 
 ### 0. Créer un dossier qui va contenir le projet et accéder à ce dossier dans un terminal de commande

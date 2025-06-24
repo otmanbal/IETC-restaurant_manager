@@ -92,9 +92,11 @@ PROJET-POO/
 ## Installation et Lancement
 ### Prérequis:
 Gestionnaire de paquet : pip
-Une version du langage de programmation : python
-❗ **Important** : Ce projet n’est compatible qu'avec les versions comprises entre 3.10 et 3.6 de python.
-### 1. Cloner le projet
+❗ **Important** : Ce projet n’est compatible qu'avec les versions comprises entre 3.13 et 3.9 de python.
+
+### 0. Créer un dossier qui va contenir le projet et accéder à ce dossier dans un terminal de commande
+
+### 1. Dans le terminal, cloner le projet
 ```bash
 git clone https://github.com/otmanbal/IETC-restaurant_manager.git
 ```
@@ -111,13 +113,13 @@ cd IETC-restaurant_manager/
 # Pour Windows, il faut d'abord autoriser les scripts powershell:
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-Ensuite, créer l'environnement sur Windows:
+Ensuite, créer un environnement sur Windows:
 python -m venv env
 
 # macOS / Linux
 python3 -m venv env
 ```
-### 4. ACtiver l'environnement virtuel
+### 4. Activer l'environnement virtuel
 ```bash
 # Windows (PowerShell)
 .\env\Scripts\Activate.ps1

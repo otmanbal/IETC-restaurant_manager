@@ -12,10 +12,13 @@ def main():
     login.show()
 
     def handle_login(username, is_admin):
-
         """
         Ferme la page de connexion et ouvre la fenêtre principale
         après une authentification réussie.
+
+        Paramètres :
+        - username : nom d'utilisateur connecté
+        - is_admin : booléen indiquant si l'utilisateur est un administrateur
         """
         login.close()
         main_window = mainWindow()
